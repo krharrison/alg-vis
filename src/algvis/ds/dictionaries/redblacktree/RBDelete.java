@@ -57,7 +57,7 @@ public class RBDelete extends Algorithm {
                 w = (u.getLeft() != null) ? u.getLeft() : u.getRight2();
             T.NULL.setParent(u.getParent2());
             if (d.isLeaf()) { // case I - list
-                addStep(d, REL.BOTTOM, "bst-delete-case1");
+                addStep(d, REL.BOTTOM, "bst-delete-case1", "" + K, w.getKeyS());
                 pause();
                 if (d.isRoot()) {
                     T.setRoot(null);
@@ -68,7 +68,7 @@ public class RBDelete extends Algorithm {
                 }
             } else if (d.getLeft() == null || d.getRight() == null) {
                 // case IIa - 1 syn
-                addStep(d, REL.BOTTOM, "bst-delete-case2");
+                addStep(d, REL.BOTTOM, "bst-delete-case2", "" + K, w.getKeyS());
                 pause();
                 final BSTNode s = (d.getLeft() == null) ? d.getRight()
                     : d.getLeft();
@@ -84,7 +84,7 @@ public class RBDelete extends Algorithm {
                     }
                 }
             } else { // case III - 2 synovia
-                addStep(d, REL.BOTTOM, "bst-delete-case3");
+                addStep(d, REL.BOTTOM, "bst-delete-case3", "" + K, w.getKeyS());
                 RBNode s = d.getRight();
                 RBNode v = new RBNode(T, -Node.INF, ZDepth.ACTIONNODE);
                 v.setColor(NodeColor.FIND);
@@ -138,25 +138,25 @@ public class RBDelete extends Algorithm {
                     if (w.getParent2().getLeft2() == w) {
                         final RBNode s = w.getParent2().getRight2();
                         if (s.isRed()) {
-                            addStep(w, REL.BOTTOM, "rbdelete1");
+                            addStep(w, REL.BOTTOM, "rbdelete1" ,"" + K, w.getKeyS());
                             pause();
                             s.setRed(false);
                             w.getParent2().setRed(true);
                             T.rotate(s);
                         } else if (!s.getLeft2().isRed()
                             && !s.getRight2().isRed()) {
-                            addStep(w, REL.BOTTOM, "rbdelete2");
+                            addStep(w, REL.BOTTOM, "rbdelete2", "" + K, w.getKeyS());
                             pause();
                             s.setRed(true);
                             w = w.getParent2();
                         } else if (!s.getRight2().isRed()) {
-                            addStep(w, REL.BOTTOM, "rbdelete3");
+                            addStep(w, REL.BOTTOM, "rbdelete3", "" + K, w.getKeyS());
                             pause();
                             s.getLeft2().setRed(false);
                             s.setRed(true);
                             T.rotate(s.getLeft());
                         } else {
-                            addStep(w, REL.BOTTOM, "rbdelete4");
+                            addStep(w, REL.BOTTOM, "rbdelete4", "" + K, w.getKeyS());
                             pause();
                             s.setRed(s.getParent2().isRed());
                             w.getParent2().setRed(false);
@@ -167,25 +167,25 @@ public class RBDelete extends Algorithm {
                     } else {
                         final RBNode s = w.getParent2().getLeft2();
                         if (s.isRed()) {
-                            addStep(w, REL.BOTTOM, "rbdelete1");
+                            addStep(w, REL.BOTTOM, "rbdelete1", "" + K, w.getKeyS());
                             pause();
                             s.setRed(false);
                             w.getParent2().setRed(true);
                             T.rotate(s);
                         } else if (!s.getRight2().isRed()
                             && !s.getLeft2().isRed()) {
-                            addStep(w, REL.BOTTOM, "rbdelete2");
+                            addStep(w, REL.BOTTOM, "rbdelete2", "" + K, w.getKeyS());
                             pause();
                             s.setRed(true);
                             w = w.getParent2();
                         } else if (!s.getLeft2().isRed()) {
                             s.getRight2().setRed(false);
-                            addStep(w, REL.BOTTOM, "rbdelete3");
+                            addStep(w, REL.BOTTOM, "rbdelete3", "" + K, w.getKeyS());
                             pause();
                             s.setRed(true);
                             T.rotate(s.getRight2());
                         } else {
-                            addStep(w, REL.BOTTOM, "rbdelete4");
+                            addStep(w, REL.BOTTOM, "rbdelete4", "" + K, w.getKeyS());
                             pause();
                             s.setRed(s.getParent2().isRed());
                             w.getParent2().setRed(false);

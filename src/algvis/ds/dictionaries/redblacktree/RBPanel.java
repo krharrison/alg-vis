@@ -32,6 +32,6 @@ public class RBPanel extends VisPanel {
     @Override
     public void start() {
         super.start();
-        D.random(30);
+        //D.random(30);
     }
 }

@@ -44,31 +44,31 @@ public class RBInsert extends Algorithm {
             pause();
 
             // bubleme nahor
-            RBNode pw = w.getParent2();
-            while (!w.isRoot() && pw.isRed()) {
+            RBNode parent = w.getParent2();
+            while (!w.isRoot() && parent.isRed()) {
                 w.mark();
-                final boolean isleft = pw.isLeft();
-                final RBNode ppw = pw.getParent2();
-                RBNode y = (isleft ? ppw.getRight() : ppw.getLeft());
-                if (y == null) {
-                    y = T.NULL;
+                final boolean isleft = parent.isLeft();
+                final RBNode grandparent = parent.getParent2();
+                RBNode uncle = (isleft ? grandparent.getRight() : grandparent.getLeft());
+                if (uncle == null) {
+                    uncle = T.NULL;
                 }
-                if (y.isRed()) {
+                if (uncle.isRed()) {
                     // case 1
-                    addStep(ppw, REL.TOP, "rbinsertcase1");
+                    addStep(grandparent, REL.TOP, "rbinsertcase1", "" + K, w.getKeyS());
                     pause();
-                    pw.setRed(false);
-                    y.setRed(false);
-                    ppw.setRed(true);
+                    parent.setRed(false);
+                    uncle.setRed(false);
+                    grandparent.setRed(true);
                     w.unmark();
-                    w = ppw;
+                    w = grandparent;
                     w.mark();
-                    pw = w.getParent2();
+                    parent = w.getParent2();
                     pause();
                 } else {
                     // case 2
                     if (isleft != w.isLeft()) {
-                        addStep(ppw, REL.TOP, "rbinsertcase2");
+                        addStep(grandparent, REL.TOP, "rbinsertcase2", "" + K, w.getKeyS());
                         pause();
                         T.rotate(w);
                         pause();
@@ -77,12 +77,12 @@ public class RBInsert extends Algorithm {
                         w = w.getParent2();
                         w.mark();
                     }
-                    pw = w.getParent2();
+                    parent = w.getParent2();
                     // case 3
-                    addStep(y, REL.TOP, "rbinsertcase3");
+                    addStep(uncle, REL.TOP, "rbinsertcase3", "" + K, w.getKeyS());
                     pause();
                     w.setRed(false);
-                    pw.setRed(true);
+                    parent.setRed(true);
                     T.rotate(w);
                     pause();
                     w.unmark();
@@ -91,7 +91,15 @@ public class RBInsert extends Algorithm {
             }
 
             w.unmark();
-            ((RBNode) T.getRoot()).setRed(false);
+
+            RBNode root = (RBNode) T.getRoot();
+            if(root.isRed()) {
+                T.getRoot().mark();
+                addStep(T.getRoot(), REL.TOP, "rbcolorroot", "" + K, w.getKeyS());
+                pause();
+                ((RBNode) T.getRoot()).setRed(false);
+                T.getRoot().unmark();
+            }
             T.reposition();
             addNote("done");
         }
